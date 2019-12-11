@@ -1,0 +1,3 @@
+﻿  Corovans.cpp
+C:\Users\Admin\source\repos\Kursach\Corovans\Display\Corovans.cpp(22): warning C4715: al_display: значение возвращается не при всех путях выполнения
+  Display.vcxproj -> C:\Users\Admin\source\repos\Kursach\Corovans\x64\Debug\Display.exe
