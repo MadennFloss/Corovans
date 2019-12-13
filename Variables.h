@@ -60,7 +60,7 @@ struct Elf
 	int x = NULL;
 	int y = NULL;
 	Point center;
-	int health = NULL;
+	int health = 300;
 	bool death = false;
 	int damage = 2;
 };
@@ -70,16 +70,61 @@ int Max_Elves = NULL;
 _int64 Num_Elves = NULL;
 int alive = NULL;
 
+struct Baulk
+{
+	ALLEGRO_BITMAP* bit = NULL;
+	bool availability = true;
+	int waiting = NULL;
+	int x = NULL;
+	int y = NULL;
+};
+Baulk _Baulk;
+
+struct Throll
+{
+	ALLEGRO_BITMAP* bit = NULL;
+	bool availability = true;
+	const int damage = 140;
+	int waiting_sec = NULL;
+	int waiting_millisec = NULL;
+	int x=NULL;
+	int y=NULL;
+};
+Throll _Throll;
+
+struct Sham
+{
+	ALLEGRO_BITMAP* bit_down = NULL;
+	ALLEGRO_BITMAP* bit_right = NULL;
+	ALLEGRO_BITMAP* bit_left = NULL;
+	ALLEGRO_BITMAP* bit_up = NULL;
+	ALLEGRO_BITMAP* bit_death = NULL;
+	bool availability = true;
+	int health = 300;
+	int damage = NULL;
+	int waiting_sec = NULL;
+	int waiting_millisec = NULL;
+	int x = NULL;
+	int y = NULL;
+};
+Sham _Sham;
+
 struct Corovan
 {
 	ALLEGRO_BITMAP* bit = NULL;
+	ALLEGRO_BITMAP* bit_rot = NULL;
 	int health = NULL;
 	int damage = NULL;
 	int x = NULL;
 	int y = NULL;
 	Point center;
+	bool stop = false;
 };
 Corovan Low_Corovan;
+Corovan Easy_Corovan;
+Corovan Middle_Corovan;
+Corovan Hard_Corovan;
+Corovan Mad_Corovan;
 
 ALLEGRO_BITMAP* Map1 = NULL;
 ALLEGRO_BITMAP* Map2 = NULL;
