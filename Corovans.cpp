@@ -27,7 +27,6 @@ void init()
 	al_init_font_addon(); //инициализация шрифтов //
 	al_init_ttf_addon();// шрифт //
 	al_init_image_addon();//установка картинок
-	//al_init_primitives_addon();//инициализация примитива
 	al_install_keyboard();// установка клавиатуры
 	Timer = al_create_timer(1.0 / fps);
 	timer = al_create_timer(1.0 / fps);//установка таймеров (Первый для перерисовки вне игрового процесса, второй для игрового процесса)
@@ -52,8 +51,8 @@ void load()//загрузка
 			NULL, ALLEGRO_MESSAGEBOX_ERROR);
 		al_destroy_display(display);
 	}
-	Main_Menu_width = al_get_bitmap_width(Main_Menu);
-	Main_Menu_height = al_get_bitmap_height(Main_Menu);
+
+
 	//карты уровней
 	Map1 = al_load_bitmap("Maps/Map1.PNG");
 	Map2 = al_load_bitmap("Maps/Map2.PNG");
@@ -64,22 +63,32 @@ void load()//загрузка
 	//юниты
 	Low_Corovan.bit = al_load_bitmap("Bits/Low_Corovan.PNG");
 	al_convert_mask_to_alpha(Low_Corovan.bit, al_map_rgb(106, 76, 48));
+
 	Easy_Corovan.bit = al_load_bitmap("Bits/Easy_Corovan.PNG");
 	al_convert_mask_to_alpha(Easy_Corovan.bit, al_map_rgb(106, 76, 48));
-	Easy_Corovan.bit_rot = al_load_bitmap("Bits/Easy_Corovan_rot.PNG");
-	al_convert_mask_to_alpha(Easy_Corovan.bit_rot, al_map_rgb(106, 76, 48));
+	Easy_Corovan.bit_down = al_load_bitmap("Bits/Easy_Corovan_down.PNG");
+	al_convert_mask_to_alpha(Easy_Corovan.bit_down, al_map_rgb(106, 76, 48));
+
 	Middle_Corovan.bit = al_load_bitmap("Bits/Middle_Corovan.PNG");
 	al_convert_mask_to_alpha(Middle_Corovan.bit, al_map_rgb(106, 76, 48));
-	Middle_Corovan.bit_rot = al_load_bitmap("Bits/Middle_Corovan_rot.PNG");
-	al_convert_mask_to_alpha(Middle_Corovan.bit_rot, al_map_rgb(106, 76, 48));
+	Middle_Corovan.bit_up = al_load_bitmap("Bits/Middle_Corovan_up.PNG");
+	al_convert_mask_to_alpha(Middle_Corovan.bit_up, al_map_rgb(106, 76, 48));
+	Middle_Corovan.bit_down = al_load_bitmap("Bits/Middle_Corovan_down.PNG");
+	al_convert_mask_to_alpha(Middle_Corovan.bit_down, al_map_rgb(106, 76, 48));
+
 	Hard_Corovan.bit = al_load_bitmap("Bits/Hard_Corovan.PNG");
 	al_convert_mask_to_alpha(Hard_Corovan.bit, al_map_rgb(106, 76, 48));
-	Hard_Corovan.bit_rot = al_load_bitmap("Bits/Hard_Corovan_rot.PNG");
-	al_convert_mask_to_alpha(Hard_Corovan.bit_rot, al_map_rgb(106, 76, 48));
+	Hard_Corovan.bit_down = al_load_bitmap("Bits/Hard_Corovan_down.PNG");
+	al_convert_mask_to_alpha(Hard_Corovan.bit_down, al_map_rgb(106, 76, 48));
+	Hard_Corovan.bit_up = al_load_bitmap("Bits/Hard_Corovan_up.PNG");
+	al_convert_mask_to_alpha(Hard_Corovan.bit_up, al_map_rgb(106, 76, 48));
+
 	Mad_Corovan.bit = al_load_bitmap("Bits/Mad_Corovan.PNG");
 	al_convert_mask_to_alpha(Mad_Corovan.bit, al_map_rgb(106, 76, 48));
-	Mad_Corovan.bit_rot = al_load_bitmap("Bits/Mad_Corovan_rot.PNG");
-	al_convert_mask_to_alpha(Mad_Corovan.bit_rot, al_map_rgb(106, 76, 48));
+	Mad_Corovan.bit_down = al_load_bitmap("Bits/Mad_Corovan_down.PNG");
+	al_convert_mask_to_alpha(Mad_Corovan.bit_down, al_map_rgb(106, 76, 48));
+	Mad_Corovan.bit_up = al_load_bitmap("Bits/Mad_Corovan_up.PNG");
+	al_convert_mask_to_alpha(Mad_Corovan.bit_up, al_map_rgb(106, 76, 48));
 
 	_Unit.bit = al_load_bitmap("Bits/Unit.PNG");
 	al_convert_mask_to_alpha(_Unit.bit, al_map_rgb(97, 68, 4));
@@ -92,6 +101,8 @@ void load()//загрузка
 	al_convert_mask_to_alpha(_Elf.bit_right, al_map_rgb(66, 93, 41));
 	_Elf.bit_left = al_load_bitmap("Bits/Elf_left.PNG");
 	al_convert_mask_to_alpha(_Elf.bit_left, al_map_rgb(66, 93, 41));
+	_Elf.bit_death = al_load_bitmap("Bits/Elf_death.PNG");
+	al_convert_mask_to_alpha(_Elf.bit_death, al_map_rgb(66, 93, 41));
 
 	_Sham.bit_up = al_load_bitmap("Bits/Sham_up.PNG");
 	al_convert_mask_to_alpha(_Sham.bit_up, al_map_rgb(66, 93, 41));
@@ -101,12 +112,63 @@ void load()//загрузка
 	al_convert_mask_to_alpha(_Sham.bit_right, al_map_rgb(66, 93, 41));
 	_Sham.bit_left = al_load_bitmap("Bits/Sham_left.PNG");
 	al_convert_mask_to_alpha(_Sham.bit_left, al_map_rgb(66, 93, 41));
+	_Sham.bit_death = al_load_bitmap("Bits/Sham_death.PNG");
+	al_convert_mask_to_alpha(_Sham.bit_death, al_map_rgb(66, 93, 41));
 
 
 	_Baulk.bit = al_load_bitmap("Bits/Baulk.PNG");
 	al_convert_mask_to_alpha(_Baulk.bit, al_map_rgb(110, 80, 52));
 	_Throll.bit = al_load_bitmap("Bits/Throll.PNG");
 	al_convert_mask_to_alpha(_Throll.bit, al_map_rgb(191, 123, 199));
+}
+
+void out_of_game()
+{
+
+	//delete fonts
+	al_destroy_font(font);
+	al_destroy_font(menu_font);
+	al_destroy_font(font_small);
+	al_destroy_font(font_text);
+
+	//destroy bitmaps
+	al_destroy_bitmap(button1);
+	al_destroy_bitmap(Main_Menu);
+	al_destroy_bitmap(Map1);
+	al_destroy_bitmap(Map2);
+	al_destroy_bitmap(Map3);
+	al_destroy_bitmap(Map4);
+	al_destroy_bitmap(Map5);
+	al_destroy_bitmap(Low_Corovan.bit);
+	al_destroy_bitmap(Easy_Corovan.bit);
+	al_destroy_bitmap(Easy_Corovan.bit_down);
+	al_destroy_bitmap(Middle_Corovan.bit);
+	al_destroy_bitmap(Middle_Corovan.bit_down);
+	al_destroy_bitmap(Middle_Corovan.bit_up);
+	al_destroy_bitmap(Hard_Corovan.bit);
+	al_destroy_bitmap(Hard_Corovan.bit_down);
+	al_destroy_bitmap(Hard_Corovan.bit_up);
+	al_destroy_bitmap(Mad_Corovan.bit);
+	al_destroy_bitmap(Mad_Corovan.bit_down);
+	al_destroy_bitmap(Mad_Corovan.bit_up);
+	al_destroy_bitmap(_Unit.bit);
+	al_destroy_bitmap(_Elf.bit_up);
+	al_destroy_bitmap(_Elf.bit_right);
+	al_destroy_bitmap(_Elf.bit_down);
+	al_destroy_bitmap(_Elf.bit_left);
+	al_destroy_bitmap(_Sham.bit_up);
+	al_destroy_bitmap(_Sham.bit_right);
+	al_destroy_bitmap(_Sham.bit_left);
+	al_destroy_bitmap(_Sham.bit_down);
+	al_destroy_bitmap(_Sham.bit_death);
+	al_destroy_bitmap(_Baulk.bit);
+	al_destroy_bitmap(_Throll.bit);
+
+	//destroy else
+	al_destroy_display(display);
+	al_destroy_event_queue(event_queue);
+	al_destroy_timer(timer);
+	al_destroy_timer(Timer);
 }
 
 void start_menu()//отображение стартового меню
@@ -280,8 +342,21 @@ void key_1()//первый уровень
 	al_draw_bitmap(_Unit.bit, _Unit.x, _Unit.y, 0);
 	al_draw_textf(font_small, al_map_rgb(0, 0, 0), 130, 30, 0, "Elves: %i", Num_Elves+1);
 	al_draw_textf(font, al_map_rgb(0, 0, 0), 800, 30, ALLEGRO_ALIGN_CENTER, "Press Enter to start Game");
+	al_draw_textf(font_small, al_map_rgb(0, 0, 0), 800, 70, ALLEGRO_ALIGN_CENTER, "Or we'll do it for ypu");
 	al_draw_textf(font_small, al_map_rgb(0, 0, 0), 1520, 30, ALLEGRO_ALIGN_RIGHT, "Use pointers for moving spawner");
 	al_draw_textf(font_small, al_map_rgb(0, 0, 0), 1520, 70, ALLEGRO_ALIGN_RIGHT, "S - spawn elves-criminals to heist Corovan");
+	++Ready.millisec;
+	if (Ready.millisec == 100)
+	{
+		++Ready.sec;
+		Ready.millisec = 0;
+	}
+	if (Ready.sec == 10)
+	{
+		al_stop_timer(Timer);
+		al_start_timer(timer);
+	}
+	al_draw_textf(font_small, al_map_rgb(0, 0, 0), 30, 30, 0, "%i:%i", Ready.sec, Ready.millisec);
 	al_flip_display();
 }
 
@@ -322,7 +397,7 @@ void first_level()//Первый уровень - маршруты
 			}
 			else
 			{
-				al_draw_bitmap(ELVES[i].bit_down, ELVES[i].x, ELVES[i].y, 0);
+				al_draw_bitmap(ELVES[i].bit_death, ELVES[i].x, ELVES[i].y, 0);
 			}
 		}
 		++Score.millisec;
@@ -381,6 +456,18 @@ void key_2()//второй уровень
 	al_draw_textf(font_small, al_map_rgb(0, 0, 0), 1520, 30, ALLEGRO_ALIGN_RIGHT, "Use pointers for moving spawner");
 	al_draw_textf(font_small, al_map_rgb(0, 0, 0), 1520, 70, ALLEGRO_ALIGN_RIGHT, "S - spawn elves-criminals");
 	al_draw_textf(font_small, al_map_rgb(0, 0, 0), 1520, 100, ALLEGRO_ALIGN_RIGHT, "B - spawn baulk to stop Corovan for 5 sec");
+	++Ready.millisec;
+	if (Ready.millisec == 100)
+	{
+		++Ready.sec;
+		Ready.millisec = 0;
+	}
+	if (Ready.sec == 10)
+	{
+		al_stop_timer(Timer);
+		al_start_timer(timer);
+	}
+	al_draw_textf(font_small, al_map_rgb(0, 0, 0), 30, 30, 0, "%i:%i", Ready.sec, Ready.millisec);
 	al_flip_display();
 }
 
@@ -401,7 +488,7 @@ void second_level()
 		}
 		else
 		{
-			al_draw_bitmap(Easy_Corovan.bit_rot, Easy_Corovan.x, Easy_Corovan.y, 0);
+			al_draw_bitmap(Easy_Corovan.bit_down, Easy_Corovan.x, Easy_Corovan.y, 0);
 			++Easy_Corovan.y;
 		}
 	}
@@ -419,7 +506,7 @@ void second_level()
 		}
 		else
 		{
-			al_draw_bitmap(Easy_Corovan.bit_rot, Easy_Corovan.x, Easy_Corovan.y, 0);
+			al_draw_bitmap(Easy_Corovan.bit_down, Easy_Corovan.x, Easy_Corovan.y, 0);
 		}
 	}
 	if (Easy_Corovan.health >= 0)
@@ -453,7 +540,7 @@ void second_level()
 			}
 			else
 			{
-				al_draw_bitmap(ELVES[i].bit_down, ELVES[i].x, ELVES[i].y, 0);
+				al_draw_bitmap(ELVES[i].bit_death, ELVES[i].x, ELVES[i].y, 0);
 			}
 		}
 		++Score.millisec;
@@ -517,6 +604,18 @@ void key_3()//третий уровень
 	al_draw_textf(font_text, al_map_rgb(0, 0, 0), 1520, 150, ALLEGRO_ALIGN_RIGHT, "Throll can stop Corovan for 2 second.");
 	al_draw_textf(font_text, al_map_rgb(0, 0, 0), 1520, 170, ALLEGRO_ALIGN_RIGHT, "If Corovan had solve Throll's riddle");
 	al_draw_textf(font_text, al_map_rgb(0, 0, 0), 1520, 190, ALLEGRO_ALIGN_RIGHT, "it can move forvard, else one get damage by Throll");
+	++Ready.millisec;
+	if (Ready.millisec == 100)
+	{
+		++Ready.sec;
+		Ready.millisec = 0;
+	}
+	if (Ready.sec == 10)
+	{
+		al_stop_timer(Timer);
+		al_start_timer(timer);
+	}
+	al_draw_textf(font_small, al_map_rgb(0, 0, 0), 30, 30, 0, "%i:%i", Ready.sec, Ready.millisec);
 	al_flip_display();
 }
 
@@ -537,7 +636,7 @@ void third_level()
 		}
 		else if (Middle_Corovan.x==465)
 		{
-			al_draw_bitmap(Middle_Corovan.bit_rot, Middle_Corovan.x, Middle_Corovan.y, 0);
+			al_draw_bitmap(Middle_Corovan.bit_down, Middle_Corovan.x, Middle_Corovan.y, 0);
 			++Middle_Corovan.y;
 		}
 		if (Middle_Corovan.x < 950 && Middle_Corovan.y == 750)
@@ -547,7 +646,7 @@ void third_level()
 		}
 		else if (Middle_Corovan.x==950)
 		{
-			al_draw_bitmap(Middle_Corovan.bit_rot, Middle_Corovan.x, Middle_Corovan.y, 0);
+			al_draw_bitmap(Middle_Corovan.bit_up, Middle_Corovan.x, Middle_Corovan.y, 0);
 			--Middle_Corovan.y;
 		}
 	}
@@ -568,11 +667,11 @@ void third_level()
 		if (Middle_Corovan.x < 465)
 			al_draw_bitmap(Middle_Corovan.bit, Middle_Corovan.x, Middle_Corovan.y, 0);
 		else if (Middle_Corovan.x == 465)
-			al_draw_bitmap(Middle_Corovan.bit_rot, Middle_Corovan.x, Middle_Corovan.y, 0);
+			al_draw_bitmap(Middle_Corovan.bit_down, Middle_Corovan.x, Middle_Corovan.y, 0);
 		if (Middle_Corovan.x < 950 && Middle_Corovan.y == 750)
 			al_draw_bitmap(Middle_Corovan.bit, Middle_Corovan.x, Middle_Corovan.y, 0);
 		else if (Middle_Corovan.x == 950)
-			al_draw_bitmap(Middle_Corovan.bit_rot, Middle_Corovan.x, Middle_Corovan.y, 0);
+			al_draw_bitmap(Middle_Corovan.bit_up, Middle_Corovan.x, Middle_Corovan.y, 0);
 	}
 	if (Middle_Corovan.health >= 0)
 	{
@@ -605,7 +704,7 @@ void third_level()
 			}
 			else
 			{
-				al_draw_bitmap(ELVES[i].bit_down, ELVES[i].x, ELVES[i].y, 0);
+				al_draw_bitmap(ELVES[i].bit_death, ELVES[i].x, ELVES[i].y, 0);
 			}
 		}
 		if (!_Throll.availability)
@@ -675,6 +774,18 @@ void key_4()//четвертый уровень
 	al_draw_textf(font_text, al_map_rgb(0, 0, 0), 1520, 190, ALLEGRO_ALIGN_RIGHT, "Sham attacks elves, pretending to be guarding,");
 	al_draw_textf(font_text, al_map_rgb(0, 0, 0), 1520, 210, ALLEGRO_ALIGN_RIGHT, "after which, having bowed half of the Corovan to");
 	al_draw_textf(font_text, al_map_rgb(0, 0, 0), 1520, 230, ALLEGRO_ALIGN_RIGHT, "his side, he attacks it.");
+	++Ready.millisec;
+	if (Ready.millisec == 100)
+	{
+		++Ready.sec;
+		Ready.millisec = 0;
+	}
+	if (Ready.sec == 10)
+	{
+		al_stop_timer(Timer);
+		al_start_timer(timer);
+	}
+	al_draw_textf(font_small, al_map_rgb(0, 0, 0), 30, 30, 0, "%i:%i", Ready.sec, Ready.millisec);
 	al_flip_display();
 }
 
@@ -690,7 +801,7 @@ void four_level()
 	{
 		if ((Hard_Corovan.y > 450) && (Hard_Corovan.x==50))
 		{
-			al_draw_bitmap(Hard_Corovan.bit_rot, Hard_Corovan.x, Hard_Corovan.y, 0);
+			al_draw_bitmap(Hard_Corovan.bit_up, Hard_Corovan.x, Hard_Corovan.y, 0);
 			--Hard_Corovan.y;
 		}
 		else if ((Hard_Corovan.y == 450) && (Hard_Corovan.x < 450))
@@ -700,7 +811,7 @@ void four_level()
 		}
 		if ((Hard_Corovan.x == 450) && (Hard_Corovan.y > 100))
 		{
-			al_draw_bitmap(Hard_Corovan.bit_rot, Hard_Corovan.x, Hard_Corovan.y, 0);
+			al_draw_bitmap(Hard_Corovan.bit_up, Hard_Corovan.x, Hard_Corovan.y, 0);
 			--Hard_Corovan.y;
 		}
 		else if ((Hard_Corovan.y == 100) && (Hard_Corovan.x < 950))
@@ -710,7 +821,7 @@ void four_level()
 		}
 		if ((Hard_Corovan.x == 950) && (Hard_Corovan.y < 700))
 		{
-			al_draw_bitmap(Hard_Corovan.bit_rot, Hard_Corovan.x, Hard_Corovan.y, 0);
+			al_draw_bitmap(Hard_Corovan.bit_down, Hard_Corovan.x, Hard_Corovan.y, 0);
 			++Hard_Corovan.y;
 		}
 		if ((Hard_Corovan.y == 700) && (950 <= Hard_Corovan.x))
@@ -734,15 +845,15 @@ void four_level()
 			al_draw_bitmap(_Throll.bit, _Throll.x + 1600, _Throll.y, 0);
 		}
 		if ((Hard_Corovan.y > 450) && (Hard_Corovan.x == 50))
-			al_draw_bitmap(Hard_Corovan.bit_rot, Hard_Corovan.x, Hard_Corovan.y, 0);
+			al_draw_bitmap(Hard_Corovan.bit_up, Hard_Corovan.x, Hard_Corovan.y, 0);
 		else if ((Hard_Corovan.y == 450) && (Hard_Corovan.x < 450))
 			al_draw_bitmap(Hard_Corovan.bit, Hard_Corovan.x, Hard_Corovan.y, 0);
 		if ((Hard_Corovan.x == 450) && (Hard_Corovan.y > 100))
-			al_draw_bitmap(Hard_Corovan.bit_rot, Hard_Corovan.x, Hard_Corovan.y, 0);
+			al_draw_bitmap(Hard_Corovan.bit_up, Hard_Corovan.x, Hard_Corovan.y, 0);
 		else if ((Hard_Corovan.y == 100) && (Hard_Corovan.x < 950))
 			al_draw_bitmap(Hard_Corovan.bit, Hard_Corovan.x, Hard_Corovan.y, 0);
 		if ((Hard_Corovan.x == 950) && (Hard_Corovan.y < 700))
-			al_draw_bitmap(Hard_Corovan.bit_rot, Hard_Corovan.x, Hard_Corovan.y, 0);
+			al_draw_bitmap(Hard_Corovan.bit_down, Hard_Corovan.x, Hard_Corovan.y, 0);
 		else if ((Hard_Corovan.y == 700) && (950 <= Hard_Corovan.x))
 			al_draw_bitmap(Hard_Corovan.bit, Hard_Corovan.x, Hard_Corovan.y, 0);
 	}
@@ -777,7 +888,7 @@ void four_level()
 			}
 			else
 			{
-				al_draw_bitmap(ELVES[i].bit_down, ELVES[i].x, ELVES[i].y, 0);
+				al_draw_bitmap(ELVES[i].bit_death, ELVES[i].x, ELVES[i].y, 0);
 			}
 		}
 		if (!_Sham.availability)
@@ -806,7 +917,7 @@ void four_level()
 		}
 		else
 		{
-			al_draw_bitmap(_Sham.bit_down, _Sham.x, _Sham.y, 0);
+			al_draw_bitmap(_Sham.bit_death, _Sham.x, _Sham.y, 0);
 		}
 		if (!_Throll.availability)
 		{
@@ -869,6 +980,18 @@ void key_5()//пятый уровень
 	al_draw_textf(font, al_map_rgb(0, 0, 0), 760, 30, ALLEGRO_ALIGN_CENTER, "Press Enter to start Game");
 	al_draw_textf(font_small, al_map_rgb(0, 0, 0), 1520, 100, ALLEGRO_ALIGN_RIGHT, "Well, I think, you know, what to do");
 	al_draw_textf(font_text, al_map_rgb(0, 0, 0), 1520, 130, ALLEGRO_ALIGN_RIGHT, "(I hope, you did not miss the previous levels");
+	++Ready.millisec;
+	if (Ready.millisec == 100)
+	{
+		++Ready.sec;
+		Ready.millisec = 0;
+	}
+	if (Ready.sec == 10)
+	{
+		al_stop_timer(Timer);
+		al_start_timer(timer);
+	}
+	al_draw_textf(font_small, al_map_rgb(0, 0, 0), 30, 30, 0, "%i:%i", Ready.sec, Ready.millisec);
 	al_flip_display();
 }
 
@@ -889,7 +1012,7 @@ void fifth_level()
 		}
 		if (Mad_Corovan.y > 100 && Mad_Corovan.x == 300)
 		{
-			al_draw_bitmap(Mad_Corovan.bit_rot, Mad_Corovan.x, Mad_Corovan.y, 0);
+			al_draw_bitmap(Mad_Corovan.bit_up, Mad_Corovan.x, Mad_Corovan.y, 0);
 			--Mad_Corovan.y;
 		}
 		if (Mad_Corovan.x < 650 && Mad_Corovan.y == 100)
@@ -899,7 +1022,7 @@ void fifth_level()
 		}
 		if (Mad_Corovan.y < 700 && Mad_Corovan.x == 650)
 		{
-			al_draw_bitmap(Mad_Corovan.bit_rot, Mad_Corovan.x, Mad_Corovan.y, 0);
+			al_draw_bitmap(Mad_Corovan.bit_down, Mad_Corovan.x, Mad_Corovan.y, 0);
 			++Mad_Corovan.y;
 		}
 		if (Mad_Corovan.x < 1000 && Mad_Corovan.y == 700)
@@ -909,7 +1032,7 @@ void fifth_level()
 		}
 		if (Mad_Corovan.y > 200 && Mad_Corovan.x == 1000)
 		{
-			al_draw_bitmap(Mad_Corovan.bit_rot, Mad_Corovan.x, Mad_Corovan.y, 0);
+			al_draw_bitmap(Mad_Corovan.bit_up, Mad_Corovan.x, Mad_Corovan.y, 0);
 			--Mad_Corovan.y;
 		}
 		if ((1000 <= Mad_Corovan.x) && (Mad_Corovan.x) < 1350 && (Mad_Corovan.y == 200))
@@ -919,7 +1042,7 @@ void fifth_level()
 		}
 		if (Mad_Corovan.y < 600 && Mad_Corovan.x == 1350)
 		{
-			al_draw_bitmap(Mad_Corovan.bit_rot, Mad_Corovan.x, Mad_Corovan.y, 0);
+			al_draw_bitmap(Mad_Corovan.bit_down, Mad_Corovan.x, Mad_Corovan.y, 0);
 			++Mad_Corovan.y;
 		}
 		if (1350 <= Mad_Corovan.x && Mad_Corovan.y == 600)
@@ -945,19 +1068,19 @@ void fifth_level()
 		if (Mad_Corovan.x < 300 && Mad_Corovan.y == 400)
 			al_draw_bitmap(Mad_Corovan.bit, Mad_Corovan.x, Mad_Corovan.y, 0);
 		if (Mad_Corovan.y > 100 && Mad_Corovan.x == 300)
-			al_draw_bitmap(Mad_Corovan.bit_rot, Mad_Corovan.x, Mad_Corovan.y, 0);
+			al_draw_bitmap(Mad_Corovan.bit_up, Mad_Corovan.x, Mad_Corovan.y, 0);
 		if (Mad_Corovan.x < 650 && Mad_Corovan.y == 100)
 			al_draw_bitmap(Mad_Corovan.bit, Mad_Corovan.x, Mad_Corovan.y, 0);
 		if (Mad_Corovan.y < 700 && Mad_Corovan.x == 650)
-			al_draw_bitmap(Mad_Corovan.bit_rot, Mad_Corovan.x, Mad_Corovan.y, 0);
+			al_draw_bitmap(Mad_Corovan.bit_down, Mad_Corovan.x, Mad_Corovan.y, 0);
 		if (Mad_Corovan.x < 1000 && Mad_Corovan.y == 700)
 			al_draw_bitmap(Mad_Corovan.bit, Mad_Corovan.x, Mad_Corovan.y, 0);
 		if (Mad_Corovan.y > 200 && Mad_Corovan.x == 1000)
-			al_draw_bitmap(Mad_Corovan.bit_rot, Mad_Corovan.x, Mad_Corovan.y, 0);
+			al_draw_bitmap(Mad_Corovan.bit_up, Mad_Corovan.x, Mad_Corovan.y, 0);
 		if ((1000 <= Mad_Corovan.x) && (Mad_Corovan.x) < 1350 && (Mad_Corovan.y == 200))
 			al_draw_bitmap(Mad_Corovan.bit, Mad_Corovan.x, Mad_Corovan.y, 0);
 		if (Mad_Corovan.y < 600 && Mad_Corovan.x == 1350)
-			al_draw_bitmap(Mad_Corovan.bit_rot, Mad_Corovan.x, Mad_Corovan.y, 0);
+			al_draw_bitmap(Mad_Corovan.bit_down, Mad_Corovan.x, Mad_Corovan.y, 0);
 		if (1350 <= Mad_Corovan.x && Mad_Corovan.y == 600)
 			al_draw_bitmap(Mad_Corovan.bit, Mad_Corovan.x, Mad_Corovan.y, 0);
 	}
@@ -992,7 +1115,7 @@ void fifth_level()
 			}
 			else
 			{
-				al_draw_bitmap(ELVES[i].bit_down, ELVES[i].x, ELVES[i].y, 0);
+				al_draw_bitmap(ELVES[i].bit_death, ELVES[i].x, ELVES[i].y, 0);
 			}
 		}
 		if (!_Sham.availability)
@@ -1021,7 +1144,7 @@ void fifth_level()
 		}
 		else
 		{
-			al_draw_bitmap(_Sham.bit_down, _Sham.x, _Sham.y, 0);
+			al_draw_bitmap(_Sham.bit_death, _Sham.x, _Sham.y, 0);
 		}
 		if (!_Throll.availability)
 		{
@@ -1081,7 +1204,7 @@ void elves()//спаун эльфов-разбойников
 	}
 	else
 	{
-		al_draw_textf(font_small, al_map_rgb(0, 0, 0), 50, 50, 0, "Empty");
+		al_draw_textf(font_small, al_map_rgb(0, 0, 0), 50, 40, 0, "Empty");
 		al_flip_display();
 		al_rest(1);
 	}
@@ -1090,17 +1213,18 @@ void elves()//спаун эльфов-разбойников
 //спаун бревна
 void key_B()
 {
-	if (_Baulk.availability)
+	if (_Baulk.availability && lock_B==false)
 	{
 		_Baulk.x = _Unit.x-al_get_bitmap_width(_Baulk.bit)/2;
 		_Baulk.y = _Unit.y - al_get_bitmap_height(_Baulk.bit)/2;
 		al_draw_bitmap(_Baulk.bit, _Baulk.x, _Baulk.y, 0);
 		al_flip_display();
 		_Baulk.availability = false;
+		lock_B = true;
 	}
 	else
 	{
-		al_draw_textf(font_small, al_map_rgb(0, 0, 0), 50, 50, 0, "Empty");
+		al_draw_textf(font_small, al_map_rgb(0, 0, 0), 50, 40, 0, "Empty");
 		al_flip_display();
 		al_rest(1);
 	}
@@ -1109,17 +1233,18 @@ void key_B()
 //спаун тролля
 void key_T()
 {
-	if (_Throll.availability)
+	if (_Throll.availability &&lock_T==false)
 	{
 		_Throll.x = _Unit.x - al_get_bitmap_width(_Throll.bit) / 2;
 		_Throll.y = _Unit.y - al_get_bitmap_height(_Throll.bit) / 2;
 		al_draw_bitmap(_Throll.bit, _Throll.x, _Throll.y, 0);
 		al_flip_display();
 		_Throll.availability = false;
+		lock_T = true;
 	}
 	else
 	{
-		al_draw_textf(font_small, al_map_rgb(0, 0, 0), 50, 50, 0, "Empty");
+		al_draw_textf(font_small, al_map_rgb(0, 0, 0), 50, 40, 0, "Empty");
 		al_flip_display();
 		al_rest(1);
 	}
@@ -1128,17 +1253,18 @@ void key_T()
 //спаун обманщика
 void key_J()
 {
-	if (_Sham.availability)
+	if (_Sham.availability && lock_J==false)
 	{
 		_Sham.x = _Unit.x - al_get_bitmap_width(_Sham.bit_up) / 2;
 		_Sham.y = _Unit.y - al_get_bitmap_height(_Sham.bit_up) / 2;
 		al_draw_bitmap(_Sham.bit_up, _Sham.x, _Sham.y, 0);
 		al_flip_display();
 		_Sham.availability = false;
+		lock_J = true;
 	}
 	else
 	{
-		al_draw_textf(font_small, al_map_rgb(0, 0, 0), 50, 50, 0, "Empty");
+		al_draw_textf(font_small, al_map_rgb(0, 0, 0), 50, 40, 0, "Empty");
 		al_flip_display();
 		al_rest(1);
 	}
@@ -1183,7 +1309,7 @@ int main()
 	{
 		ALLEGRO_EVENT event;//любое событие
 		al_wait_for_event(event_queue, &event);//ожидать событие
-		if (event.type == ALLEGRO_EVENT_KEY_DOWN)//событие - нажатая клавиша
+		if (event.type == ALLEGRO_EVENT_KEY_DOWN && redraw==false)//событие - нажатая клавиша
 		{
 			switch (event.keyboard.keycode)
 			{
@@ -1193,12 +1319,8 @@ int main()
 			{
 				Low_Corovan.x = 0;
 				Low_Corovan.y = 400;
-				Low_Corovan.center.x = al_get_bitmap_width(Low_Corovan.bit);
-				Low_Corovan.center.y = al_get_bitmap_height(Low_Corovan.bit);
 				_Unit.x = 800;
 				_Unit.y = 450;
-				_Elf.center.x = al_get_bitmap_width(_Elf.bit_up);
-				_Elf.center.y = al_get_bitmap_height(_Elf.bit_up);
 				Max_Elves = 6;
 				alive = 6;
 				Num_Elves = 5;
@@ -1216,7 +1338,12 @@ int main()
 				Score.millisec = 0;
 				Score.sec = 0;
 				Score.min = 0;
+				Ready.millisec = 0;
+				Ready.sec = 0;
 				pre_start = true;
+				lock_B = true;
+				lock_T = true;
+				lock_J = true;
 				al_start_timer(Timer);
 				break;
 			}
@@ -1224,12 +1351,8 @@ int main()
 			{
 				Easy_Corovan.x = 0;
 				Easy_Corovan.y = 400;
-				Easy_Corovan.center.x = al_get_bitmap_width(Easy_Corovan.bit);
-				Easy_Corovan.center.y = al_get_bitmap_height(Easy_Corovan.bit);
 				_Unit.x = 800;
 				_Unit.y = 450;
-				_Elf.center.x = al_get_bitmap_width(_Elf.bit_up);
-				_Elf.center.y = al_get_bitmap_height(_Elf.bit_up);
 				Max_Elves = 6;
 				alive = 6;
 				Num_Elves = 5;
@@ -1252,6 +1375,11 @@ int main()
 				Score.millisec = 0;
 				Score.sec = 0;
 				Score.min = 0;
+				Ready.millisec = 0;
+				Ready.sec = 0;
+				lock_B = false;
+				lock_T = true;
+				lock_J = true;
 				pre_start = true;
 				al_start_timer(Timer);
 				break;
@@ -1260,12 +1388,8 @@ int main()
 			{
 				Middle_Corovan.x = 0;
 				Middle_Corovan.y = 400;
-				Middle_Corovan.center.x = al_get_bitmap_width(Middle_Corovan.bit);
-				Middle_Corovan.center.y = al_get_bitmap_height(Middle_Corovan.bit);
 				_Unit.x = 800;
 				_Unit.y = 450;
-				_Elf.center.x = al_get_bitmap_width(_Elf.bit_up);
-				_Elf.center.y = al_get_bitmap_height(_Elf.bit_up);
 				Max_Elves = 6;
 				alive = 6;
 				Num_Elves = 5;
@@ -1293,6 +1417,11 @@ int main()
 				Score.millisec = 0;
 				Score.sec = 0;
 				Score.min = 0;
+				Ready.millisec = 0;
+				Ready.sec = 0;
+				lock_B = false;
+				lock_T = false;
+				lock_J = true;
 				pre_start = true;
 				al_start_timer(Timer);
 				break;
@@ -1301,12 +1430,8 @@ int main()
 			{
 				Hard_Corovan.x = 50;
 				Hard_Corovan.y = 750;
-				Hard_Corovan.center.x = al_get_bitmap_width(Hard_Corovan.bit)/2;
-				Hard_Corovan.center.y = al_get_bitmap_height(Hard_Corovan.bit)/2;
 				_Unit.x = 800;
 				_Unit.y = 450;
-				_Elf.center.x = al_get_bitmap_width(_Elf.bit_up);
-				_Elf.center.y = al_get_bitmap_height(_Elf.bit_up);
 				Max_Elves = 2;
 				alive = 2;
 				Num_Elves = 1;
@@ -1339,6 +1464,11 @@ int main()
 				Score.millisec = 0;
 				Score.sec = 0;
 				Score.min = 0;
+				Ready.millisec = 0;
+				Ready.sec = 0;
+				lock_B = false;
+				lock_T = false;
+				lock_J = false;
 				pre_start = true;
 				al_start_timer(Timer);
 				break;
@@ -1349,8 +1479,6 @@ int main()
 				Mad_Corovan.y = 400;
 				_Unit.x = 800;
 				_Unit.y = 450;
-				_Elf.center.x = al_get_bitmap_width(_Elf.bit_up);
-				_Elf.center.y = al_get_bitmap_height(_Elf.bit_up);
 				Max_Elves = 6;
 				alive = 6;
 				Num_Elves = 5;
@@ -1367,7 +1495,7 @@ int main()
 				_Sham.x = 1700;
 				_Sham.y = 0;
 				_Sham.health = 300;
-				Mad_Corovan.health = 1900;
+				Mad_Corovan.health = 1850;
 				Mad_Corovan.damage = 6;
 				Mad_Corovan.stop = false;
 				_Baulk.waiting = 0;
@@ -1383,6 +1511,11 @@ int main()
 				Score.millisec = 0;
 				Score.sec = 0;
 				Score.min = 0;
+				Ready.millisec = 0;
+				Ready.sec = 0;
+				lock_B = false;
+				lock_T = false;
+				lock_J = false;
 				pre_start = true;
 				al_start_timer(Timer);
 				break;
@@ -1392,9 +1525,24 @@ int main()
 			case ALLEGRO_KEY_RIGHT: direction = RIGHT; spawn(); break;
 			case ALLEGRO_KEY_LEFT: direction = LEFT; spawn(); break;
 			case ALLEGRO_KEY_S: elves(); break;
-			case ALLEGRO_KEY_B: key_B(); break;
-			case ALLEGRO_KEY_T: key_T(); break;
-			case ALLEGRO_KEY_J: key_J(); break;
+			case ALLEGRO_KEY_B: 
+			{
+				key_B();
+				lock_B = true;
+				break;
+			}
+			case ALLEGRO_KEY_T: 
+			{
+				key_T();
+				lock_T = true;
+				break;
+			}
+			case ALLEGRO_KEY_J:
+			{
+				key_J();
+				lock_J = true;
+				break;
+			}
 			case ALLEGRO_KEY_ENTER:
 			{
 				al_stop_timer(Timer);
@@ -1403,10 +1551,24 @@ int main()
 			}
 			case ALLEGRO_KEY_ESCAPE:
 			{
+				al_stop_timer(timer);
 				start_menu();
 				break;
 			}
 			case ALLEGRO_KEY_X: out = true; break;
+			}
+			if (event.type == ALLEGRO_KEY_DOWN && redraw == true)
+			{
+				switch (event.keyboard.keycode)
+				{
+				case ALLEGRO_KEY_X: out = true; break;
+				case ALLEGRO_KEY_ESCAPE:
+				{
+					al_stop_timer(timer);
+					start_menu();
+					break;
+				}
+				}
 			}
 		}
 
@@ -1461,12 +1623,7 @@ int main()
 			}
 		}
 	}
-
-	//очищение
-	al_destroy_bitmap(Low_Corovan.bit);
-	al_destroy_timer(timer);
-	al_destroy_display(display);
-	al_destroy_event_queue(event_queue);
-
+	//освобождение памяти
+	out_of_game();
 	return 0;
 };

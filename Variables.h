@@ -9,6 +9,10 @@ bool start = false;
 int Num_Level = NULL;
 int Num_Key = NULL;
 
+bool lock_T = false;
+bool lock_B = false;
+bool lock_J = false;
+
 ALLEGRO_DISPLAY* display = NULL;
 
 ALLEGRO_FONT* font=NULL;
@@ -30,6 +34,7 @@ struct Time
 };
 Time Score;
 Time Record;
+Time Ready;
 
 struct Point
 {
@@ -59,7 +64,6 @@ struct Elf
 	ALLEGRO_BITMAP* bit_death = NULL;
 	int x = NULL;
 	int y = NULL;
-	Point center;
 	int health = 300;
 	bool death = false;
 	int damage = 2;
@@ -112,12 +116,12 @@ Sham _Sham;
 struct Corovan
 {
 	ALLEGRO_BITMAP* bit = NULL;
-	ALLEGRO_BITMAP* bit_rot = NULL;
+	ALLEGRO_BITMAP* bit_down = NULL;
+	ALLEGRO_BITMAP* bit_up = NULL;
 	int health = NULL;
 	int damage = NULL;
 	int x = NULL;
 	int y = NULL;
-	Point center;
 	bool stop = false;
 };
 Corovan Low_Corovan;
